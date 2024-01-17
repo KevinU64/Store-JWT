@@ -5,7 +5,8 @@ const productSchema = new mongoose.Schema({
 
     name: {
         type: String,
-        required: [ true, 'Name is required' ]
+        required: [ true, 'Name is required' ],
+        unique: true
     },
     available: {
         type: Boolean,
@@ -29,6 +30,14 @@ const productSchema = new mongoose.Schema({
         required: true
     }
     
+});
+
+productSchema.set('toJSON', {
+    virtuals: true,
+    versionKey: false,
+    transform: function(doc, ret, options) {
+        delete ret._id;
+    },
 });
 
 export const ProductModel = mongoose.model('Product', productSchema);
